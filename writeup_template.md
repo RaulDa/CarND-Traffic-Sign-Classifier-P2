@@ -5,7 +5,7 @@
 **Build a Traffic Sign Recognition Project**
 
 The goals / steps of this project are the following:
-* Load the data set (see below for links to the project data set)
+* Load the data set
 * Explore, summarize and visualize the data set
 * Design, train and test a model architecture
 * Use the model to make predictions on new images
@@ -15,14 +15,11 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./examples/visualization.jpg "Visualization"
-[image2]: ./examples/color_gray.png "Grayscaling"
-[image3]: ./examples/random_noise.jpg "Random Noise"
-[image4]: ./examples/placeholder.png "Traffic Sign 1"
-[image5]: ./examples/placeholder.png "Traffic Sign 2"
-[image6]: ./examples/placeholder.png "Traffic Sign 3"
-[image7]: ./examples/placeholder.png "Traffic Sign 4"
-[image8]: ./examples/placeholder.png "Traffic Sign 5"
+[image1]: ./results/sign_count.jpg  "Visualization"
+[image2]: ./results/color_gray.png "Grayscaling"
+[image4]: ./results/webImages_grayscale.png "Web images"
+[image14]: ./results/conv1.png "First convolution"
+[image15]: ./results/conv2.png "Second convolution"
 
 ## Rubric Points
 
@@ -31,9 +28,11 @@ Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/4
 ---
 ### Writeup / README
 
-You're reading it! and here is a link to my [project code](https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project/blob/master/Traffic_Sign_Classifier.ipynb)
+You're reading it! and here is a link to my [project code](https://github.com/RaulDa/CarND-Traffic-Sign-Classifier-Project/blob/master/Traffic_Sign_Classifier.ipynb)
 
 ### Data Set Summary & Exploration
+
+#### 1. Data set summary
 
 I used the NumPy library to calculate summary statistics of the traffic
 signs data set:
@@ -44,11 +43,13 @@ signs data set:
 * The shape of a traffic sign image is 32x32 pixels with RGB scale (32, 32, 3)
 * The number of unique classes/labels in the data set is 43
 
-#### 2. Include an exploratory visualization of the dataset.
+#### 2. Exploratory visualization of the dataset.
 
-Here is an exploratory visualization of the data set. It is a bar chart showing how the data ...
+Here is an exploratory visualization of the data set. It is a bar chart showing how many images corresponding to each traffic sign the training set contains:
 
 ![alt text][image1]
+
+As shown in the figure, the data set contains an unequal number of images for each traffic sign. The sign with the most images is the speed limit of 50 km/h (label 2), with around 2000 samples. However, the speed limit of 20 km/h (label 0) has around 200 samples. This will determine the probability of success for each sign and also the overall accuracy of the network for the data set.
 
 ### Design and Test a Model Architecture
 
@@ -110,66 +111,121 @@ Finally, the weights were initialized with zero mean and equal variance. This co
 
 #### 4. Solution approach and results
 
-My final model results were:
-* training set accuracy of ?
-* validation set accuracy of ?
-* test set accuracy of ?
+As previously mentioned, LeNet was taken as base for building the network architecture. The reason is that this architecture provides good results for the MNIST data set, which is of similar complexity in comparison with the traffic sign data set (the last one is slightly more complex).
 
-If an iterative approach was chosen:
-* What was the first architecture that was tried and why was it chosen?
-* What were some problems with the initial architecture?
-* How was the architecture adjusted and why was it adjusted? Typical adjustments could include choosing a different model architecture, adding or taking away layers (pooling, dropout, convolution, etc), using an activation function or changing the activation function. One common justification for adjusting an architecture would be due to overfitting or underfitting. A high accuracy on the training set but low accuracy on the validation set indicates over fitting; a low accuracy on both sets indicates under fitting.
-* Which parameters were tuned? How were they adjusted and why?
-* What are some of the important design choices and why were they chosen? For example, why might a convolution layer work well with this problem? How might a dropout layer help with creating a successful model?
+Some changes were applied to the initial LeNet. The feature maps were increased from 6 and 14 to 8 and 20, according to the complexity increase of the new data set (includes more features to be detected). Also, the dropout regularization technique was applied to the third and fourth layers. The reason is that this method has been recently proved to reduce successfully the overfitting problem.
 
-If a well known architecture was chosen:
-* What architecture was chosen?
-* Why did you believe it would be relevant to the traffic sign application?
-* How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well?
+With this changes and also the hyperparameter selection explained previously, I expected a significant increase of the accuracy. The initial validation accuracy was 0.89, and with the mentioned configuration the results are the following:
+
+* training set accuracy of 0.988
+* validation set accuracy of 0.970
+* test set accuracy of 0.958
+
+The slight difference in the accuracy of both validation and test sets shows that that the selected parameters and configuration prevent overfitting, that is, the network learn to detect features instead of just "learn" only the training set. Of course, the network provide a significant increase in the accuracy, always above 0.93.
 
 
-###Test a Model on New Images
+### Test a Model on New Images
 
-####1. Choose five German traffic signs found on the web and provide them in the report. For each image, discuss what quality or qualities might be difficult to classify.
+#### 1. Traffic signs found on the web
 
-Here are five German traffic signs that I found on the web:
+Here are ten German traffic signs that I found on the web, after grayscaling and normalizing:
 
-![alt text][image4] ![alt text][image5] ![alt text][image6]
-![alt text][image7] ![alt text][image8]
+![alt text][image4]
 
-The first image might be difficult to classify because ...
+The whole images can be found on the [web_images](https://github.com/RaulDa/CarND-Traffic-Sign-Classifier-Project/tree/master/web_images) folder of the repository.
 
-####2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
+The first image might be difficult to classify because it looks slightly blurred. Also the stop image due to the amount of features to detect and the slippery road and children crossing images, for containing detailed and small features that could me more difficult to detect by the network.
+
+#### 2. Predictions of new traffic signs. Accuracy comparison with validation and test results
 
 Here are the results of the prediction:
 
 | Image			        |     Prediction	        					|
 |:---------------------:|:---------------------------------------------:|
-| Stop Sign      		| Stop sign   									|
-| U-turn     			| U-turn 										|
-| Yield					| Yield											|
-| 100 km/h	      		| Bumpy Road					 				|
-| Slippery Road			| Slippery Road      							|
+| Speed limit (50 km/h)     		| No passing for vehicles over 3.5 metric tons   									|
+| No passing     			| No passing 										|
+| Priority road					| Priority road											|
+| Yield	      		| Yield					 				|
+| Stop			| Stop      							|
+| Slippery road      		| Slippery road   									|
+| Children crossing     			| Road narrows on the right 										|
+| Wild animal crossing					| Wild animal crossing											|
+| Go straight or right	      		| Go straight or right					 				|
+| End of no passing			| End of no passing     							|
 
 
-The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of ...
+The model was able to correctly guess 8 of the 10 traffic signs, which gives an accuracy of 80%. This compares reasonably to the accuracy on the test set of 95.8%. The accuracy is lower but high though, and a lower result is expected since the number of images is also lower.
 
-####3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
+Although the speed limit of 50 km/h signal is the one with the most samples in the data set, it is not detected correctly. I believe the reason is that the image found on the web is slightly blurred. The children crossing signal is also not detected correctly. In my opinion, the fact that the features are more difficult to detect in comparison with other signs, and the number of samples in the data set (around 500) being not one of the highest, make that the detection fails.
 
-The code for making predictions on my final model is located in the 11th cell of the Ipython notebook.
+#### 3. Predictions certainty through softmax probabilities
 
-For the first image, the model is relatively sure that this is a stop sign (probability of 0.6), and the image does contain a stop sign. The top five soft max probabilities were
+The 5 highest softmax probabilities for the signs Speed limit (50 km/h), priority road, stop, children crossing and go straight or right are shown below:
+
+Speed limit (50 km/h)
 
 | Probability         	|     Prediction	        					|
 |:---------------------:|:---------------------------------------------:|
-| .60         			| Stop sign   									|
-| .20     				| U-turn 										|
-| .05					| Yield											|
-| .04	      			| Bumpy Road					 				|
-| .01				    | Slippery Road      							|
+| .92993         			| No passing for vehicles over 3.5 metric tons   									|
+| .06766     				| Ahead only 										|
+| .00165					| Vehicles over 3.5 metric tons prohibited											|
+| .00064	      			| Speed limit (80 km/h)					 				|
+| .00004				    | Turn right ahead      							|
 
 
-For the second image ...
+Priority Road
 
-### (Optional) Visualizing the Neural Network (See Step 4 of the Ipython notebook for more details)
-####1. Discuss the visual output of your trained network's feature maps. What characteristics did the neural network use to make classifications?
+| Probability         	|     Prediction	        					|
+|:---------------------:|:---------------------------------------------:|
+| 1.00000   			| Priority road   									|
+| .00000     				| Roundabout mandatory 										|
+| .00000					| Yield											|
+| .00000	      			| Keep right					 				|
+| .00000				    | Speed limit (100 km/h)      							|
+
+
+Stop
+
+| Probability         	|     Prediction	        					|
+|:---------------------:|:---------------------------------------------:|
+| 1.00000         			| Stop   									|
+| .00000     				| Speed limit (100 km/h) 										|
+| .00000					| Keep right											|
+| .00000	      			| Turn left ahead					 				|
+| .00000				    | Turn right ahead      							|
+
+
+Children crossing
+
+| Probability         	|     Prediction	        					|
+|:---------------------:|:---------------------------------------------:|
+| .94658         			| Road narrows on the right   									|
+| .03416     				| Children crossing 										|
+| .01473					| Beware of ice/snow											|
+| .00285	      			| Dangerous curve to the right					 				|
+| .00251				    | Road work      							|
+
+
+Go straight or right
+
+| Probability         	|     Prediction	        					|
+|:---------------------:|:---------------------------------------------:|
+| 1.00000         			| Go straight or right   									|
+| .00000     				| Ahead only										|
+| .00000					| Speed limit (60 km/h)											|
+| .00000	      			| End of all speed and passing limits					 				|
+| .00000				    | Vehicles over 3.5 metric tons prohibited      							|
+
+The signs correctly detected obtain a 100% of accuracy. For the children crossing one, it is detected as children crossing with a probability of 3.4% (the second most detected one). However, for the signal limit of 50%, curiously it is not even within the 5 highest probabilities.
+
+### Neural network visualization
+
+The visualization of the first convolution for the No passing sign is shown below:
+
+![alt text][image14]
+
+Regarding the second one:
+
+![alt text][image15]
+
+The first convolution shows that the boundaries of the sign are firstly detected. Regarding the second one, the low amount of pixels (5x5) makes that it is difficult for the human eye to discern which features are detected. However it is expected to detect the details of the image (in the case of this traffic sign, both cars)
