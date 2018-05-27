@@ -37,11 +37,11 @@ You're reading it! and here is a link to my [project code](https://github.com/Ra
 I used the NumPy library to calculate summary statistics of the traffic
 signs data set:
 
-* The size of training set is 34799 examples
-* The size of the validation set is 4410 examples
-* The size of test set is 12630 examples
-* The shape of a traffic sign image is 32x32 pixels with RGB scale (32, 32, 3)
-* The number of unique classes/labels in the data set is 43
+* The size of training set is `34799` examples
+* The size of the validation set is `4410` examples
+* The size of test set is `12630` examples
+* The shape of a traffic sign image is `32x32` pixels with RGB scale (32, 32, 3)
+* The number of unique classes/labels in the data set is `43`
 
 #### 2. Exploratory visualization of the dataset.
 
@@ -49,7 +49,7 @@ Here is an exploratory visualization of the data set. It is a bar chart showing 
 
 ![alt text][image1]
 
-As shown in the figure, the data set contains an unequal number of images for each traffic sign. The sign with the most images is the speed limit of 50 km/h (label 2), with around 2000 samples. However, the speed limit of 20 km/h (label 0) has around 200 samples. This will determine the probability of success for each sign and also the overall accuracy of the network for the data set.
+As shown in the figure, the data set contains an unequal number of images for each traffic sign. The sign with the most images is the speed limit of `50 km/h` (label 2), with around `2000` samples. However, the speed limit of `20 km/h` (label 0) has around `200` samples. This will determine the probability of success for each sign and also the overall accuracy of the network for the data set.
 
 ### Design and Test a Model Architecture
 
@@ -90,9 +90,9 @@ My final model consisted of the following layers:
 |						|												|
 |	Fully connected		|	Inputs 140, outputs 43											|
 
-I decided to increase the feature maps of both convolutions with regard to the original LeNet. For the first layer the number is 8 and for the second layer 20 feature maps. Taking as assumption that 6 and 14 worked well for the MNIST data set, a configuration with more feature maps should work better for the sign images, since their features are more complex.
+I decided to increase the feature maps of both convolutions with regard to the original `LeNet`. For the first layer the number is `8` and for the second layer `20` feature maps. Taking as assumption that `6` and `14` worked well for the `MNIST` data set, a configuration with more feature maps should work better for the sign images, since their features are more complex.
 
-Finally I added a regularization (dropout) in the layers 3 and 4, with a keep probability of 0.5.
+Finally I added a regularization (dropout) in the layers `3` and `4`, with a keep probability of `0.5`.
 
 
 #### 3. Model training
@@ -105,23 +105,23 @@ To train the model, I used the following parameters:
 |	Batch size					|	64											|
 | Learning rate 	| 0.00075 	|
 
-Since it was chosen to increase the number of epochs until the accuracy stops growing, I also decided to decrease the learning rate, so that it learns slower but better, above all for the last epochs. Additionally, a decrease in the batch size of 64 provided slightly better results for the current network configuration.
+Since it was chosen to increase the number of epochs until the accuracy stops growing, I also decided to decrease the learning rate, so that it learns slower but better, above all for the last epochs. Additionally, a decrease in the batch size of `64` provided slightly better results for the current network configuration.
 
 Finally, the weights were initialized with zero mean and equal variance. This configuration is needed to make the Adam optimizer (method chosen by the initial LeNet architecture) work properly.
 
 #### 4. Solution approach and results
 
-As previously mentioned, LeNet was taken as base for building the network architecture. The reason is that this architecture provides good results for the MNIST data set, which is of similar complexity in comparison with the traffic sign data set (the last one is slightly more complex).
+As previously mentioned, `LeNet` was taken as base for building the network architecture. The reason is that this architecture provides good results for the `MNIST` data set, which is of similar complexity in comparison with the traffic sign data set (the last one is slightly more complex).
 
-Some changes were applied to the initial LeNet. The feature maps were increased from 6 and 14 to 8 and 20, according to the complexity increase of the new data set (includes more features to be detected). Also, the dropout regularization technique was applied to the third and fourth layers. The reason is that this method has been recently proved to reduce successfully the overfitting problem.
+Some changes were applied to the initial `LeNet`. The feature maps were increased from `6` and `14` to `8` and `20`, according to the complexity increase of the new data set (includes more features to be detected). Also, the dropout regularization technique was applied to the third and fourth layers. The reason is that this method has been recently proved to reduce successfully the overfitting problem.
 
-With this changes and also the hyperparameter selection explained previously, I expected a significant increase of the accuracy. The initial validation accuracy was 0.89, and with the mentioned configuration the results are the following:
+With this changes and also the hyperparameter selection explained previously, I expected a significant increase of the accuracy. The initial validation accuracy was `0.89`, and with the mentioned configuration the results are the following:
 
-* training set accuracy of 0.988
-* validation set accuracy of 0.970
-* test set accuracy of 0.958
+* training set accuracy of `0.988`
+* validation set accuracy of `0.970`
+* test set accuracy of `0.958`
 
-The slight difference in the accuracy of both validation and test sets shows that that the selected parameters and configuration prevent overfitting, that is, the network learn to detect features instead of just "learn" only the training set. Of course, the network provide a significant increase in the accuracy, always above 0.93.
+The slight difference in the accuracy of both validation and test sets shows that that the selected parameters and configuration prevent overfitting, that is, the network learn to detect features instead of just "learn" only the training set. Of course, the network provide a significant increase in the accuracy, always above `0.93`.
 
 
 ### Test a Model on New Images
@@ -154,15 +154,15 @@ Here are the results of the prediction:
 | End of no passing			| End of no passing     							|
 
 
-The model was able to correctly guess 8 of the 10 traffic signs, which gives an accuracy of 80%. This compares reasonably to the accuracy on the test set of 95.8%. The accuracy is lower but high though, and a lower result is expected since the number of images is also lower.
+The model was able to correctly guess `8` of the `10` traffic signs, which gives an accuracy of `80%`. This compares reasonably to the accuracy on the test set of `95.8%`. The accuracy is lower but high though, and a lower result is expected since the number of images is also lower.
 
-Although the speed limit of 50 km/h signal is the one with the most samples in the data set, it is not detected correctly. I believe the reason is that the image found on the web is slightly blurred. The children crossing signal is also not detected correctly. In my opinion, the fact that the features are more difficult to detect in comparison with other signs, and the number of samples in the data set (around 500) being not one of the highest, make that the detection fails.
+Although the speed limit of `50 km/h` signal is the one with the most samples in the data set, it is not detected correctly. I believe the reason is that the image found on the web is slightly blurred. The children crossing signal is also not detected correctly. In my opinion, the fact that the features are more difficult to detect in comparison with other signs, and the number of samples in the data set (around `500`) being not one of the highest, make that the detection fails.
 
 #### 3. Predictions certainty through softmax probabilities
 
-The 5 highest softmax probabilities for the signs Speed limit (50 km/h), priority road, stop, children crossing and go straight or right are shown below:
+The 5 highest softmax probabilities for the signs Speed limit (`50 km/h`), priority road, stop, children crossing and go straight or right are shown below:
 
-Speed limit (50 km/h)
+Speed limit (`50 km/h`)
 
 | Probability         	|     Prediction	        					|
 |:---------------------:|:---------------------------------------------:|
@@ -216,7 +216,7 @@ Go straight or right
 | .00000	      			| End of all speed and passing limits					 				|
 | .00000				    | Vehicles over 3.5 metric tons prohibited      							|
 
-The signs correctly detected obtain a 100% of accuracy. For the children crossing one, it is detected as children crossing with a probability of 3.4% (the second most detected one). However, for the signal limit of 50%, curiously it is not even within the 5 highest probabilities.
+The signs correctly detected obtain a `100%` of accuracy. For the children crossing one, it is detected as children crossing with a probability of `3.4%` (the second most detected one). However, for the signal limit of `50%`, curiously it is not even within the `5` highest probabilities.
 
 ### Neural network visualization
 
@@ -228,4 +228,4 @@ Regarding the second one:
 
 ![alt text][image15]
 
-The first convolution shows that the boundaries of the sign are firstly detected. Regarding the second one, the low amount of pixels (5x5) makes that it is difficult for the human eye to discern which features are detected. However it is expected to detect the details of the image (in the case of this traffic sign, both cars)
+The first convolution shows that the boundaries of the sign are firstly detected. Regarding the second one, the low amount of pixels (`5x5`) makes that it is difficult for the human eye to discern which features are detected. However it is expected to detect the details of the image (in the case of this traffic sign, both cars)
